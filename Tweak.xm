@@ -20,7 +20,7 @@ NSDictionary *prefs=[[NSDictionary alloc] initWithContentsOfFile:prefs.plist]; /
 if (![[prefs objectForKey:@"enabled"] boolValue] || allowLaunch){
 	%orig;
 } else if([[prefs objectForKey:@"enabled"] boolValue]) {
-	UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:@"Clear the badges or just launch the App?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Badges", @"Launch the App", nil];
+	UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:@"Clear the badges or continue launching the App?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Badges", @"Launch the App", nil];
 	[launchView show];
 	[launchView release];
 }
