@@ -1,0 +1,9 @@
+Package: com.ge0rges.badgeclearer
+Name: Badge Clearer
+Depends: mobilesubstrate, preferenceloader, applist (>= 1.4.1), firmware (>= 5.0)
+Version: 3.0
+Architecture: iphoneos-arm
+Description: Remove your badges as fast as they came!
+Maintainer: Ge0rges
+Author: Ge0rges
+Section: Tweaks
