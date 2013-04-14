@@ -30,7 +30,7 @@
 }
 - (NSString *) developer: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
     
-	return @"Ge0rges & Nexuist ";
+	return @"GN-OS ";
 }
 
 - (NSString *) hostedby: (PSSpecifier *) specifier {//PSSpecifier for the Hosted by PSTitleValueCell
