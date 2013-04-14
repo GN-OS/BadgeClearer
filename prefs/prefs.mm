@@ -30,12 +30,12 @@
 }
 - (NSString *) developer: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
     
-	return @"Ge0rges";
+	return @"Ge0rges & Nexuist ";
 }
 
 - (NSString *) hostedby: (PSSpecifier *) specifier {//PSSpecifier for the Hosted by PSTitleValueCell
     
-	return @"BigBoss and my repo";
+	return @"BigBoss and Ge0rges's repo";
 }
 
 
