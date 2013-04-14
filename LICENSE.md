@@ -16,5 +16,5 @@ Copyright (C) 1995-2012 Jean-loup Gailly and Mark Adler
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 
-  Jean-loup Gailly        Mark Adler
-  jloup@gzip.org          madler@alumni.caltech.edu
+  Jean-loup Gailly (jloup@gzip.org)<br>
+  Mark Adler (madler@alumni.caltech.edu)
