@@ -26,7 +26,7 @@
     } else {
         // Show the alert view   
         UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:@"BadgeClearer"
-            message:DEBUG?displayName:launchingBundleID
+            message:DEBUG?launchingBundleID:displayName
             delegate:self
             cancelButtonTitle:@"Cancel"
             otherButtonTitles:@"Clear Badges", @"Launch app", @"Both", nil];
