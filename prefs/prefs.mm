@@ -28,7 +28,7 @@
 	
     return @"3.0-30";
 }
-- (NSString *) developer: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
+- (NSString *) developers: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
     
 	return @"GN-OS ";
 }
@@ -39,7 +39,7 @@
 }
 
 
--(void)devwebsite{//Method for Devwebsite button
+-(void)Gdevwebsite{//Method for Devwebsite button
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.ge0rges.webs.com"]];
 }
     
