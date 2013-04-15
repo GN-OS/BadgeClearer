@@ -1,7 +1,6 @@
 BadgeClearer
 ============
-*by GN-OS*<br>
-*© 2013*
+*© GN-OS 2013*
 
 About
 =====
@@ -18,7 +17,7 @@ the following instructions __must__ be followed:
 2. Make it clear that your patch it is based on work by the original authors without endorsing purposes.
 3. Change the name and the bundle identifier of this project so it does not conflict with the original package.
 
-IF THESE INSTRUCTIONS ARE NOT FOLLOWED, [THERE WILL BE CONSEQUENCES](www.youtube.com/watch?v=FSt1ptsOjL0).
+IF THESE INSTRUCTIONS ARE NOT FOLLOWED, [THERE WILL BE CONSEQUENCES](http://www.youtube.com/watch?v=FSt1ptsOjL0).
 
 Credits
 =======
