@@ -28,7 +28,7 @@
 	
     return @"3.0-30";
 }
-- (NSString *) developers: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
+- (NSString *) developer: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
     
 	return @"GN-OS ";
 }
