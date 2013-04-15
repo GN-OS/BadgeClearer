@@ -27,7 +27,7 @@
         message:nil
         delegate:self
         cancelButtonTitle:@"Cancel"
-        otherButtonTitles:@"Clear badge count", @"Launch app", @"Both", nil];
+        otherButtonTitles:@"Clear Badges", @"Launch app", @"Both", nil];
     [launchView show];
     [launchView release];
     }
