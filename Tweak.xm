@@ -10,10 +10,12 @@
 - (id)displayName;
 @end
 
+static BOOL justLaunch = NO;
+
 %hook SBApplicationIcon
 
 - (void)launch {
-    if ([self badgeValue] == 0) {
+    if ([self badgeValue] == 0 || justLaunch) {
         %orig;
         return;
     }
@@ -42,7 +44,8 @@
             // Because there is no break;, code will continue onto case 2 and then break
             [self setBadge:nil];   
         case 2: // "Launch app" pressed
-            // Launch the app
+            // Launch the app, skip all the other checks
+	    justLaunch = YES;	
             [self launch];
             break;
         case 1: // "Clear badge count" pressed
