@@ -35,7 +35,7 @@
 
 - (NSString *) hostedby: (PSSpecifier *) specifier {//PSSpecifier for the Hosted by PSTitleValueCell
     
-	return @"BigBoss and Ge0rges's repo";
+	return @"BigBoss";
 }
 
 
