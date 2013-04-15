@@ -7,6 +7,7 @@
 - (int)badgeValue;
 - (void)setBadge:(id)badge;
 - (id)applicationBundleID;
+- (id)displayName;
 @end
 
 %hook SBApplicationIcon
@@ -18,13 +19,14 @@
     }
     NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
     NSString *launchingBundleID = [self applicationBundleID];
+	NSString *displayName = [self displayName];
 
     if (prefs && [prefs objectForKey:launchingBundleID]) { // Application is present in blacklist
         %orig;
     } else {
         // Show the alert view   
         UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:@"BadgeClearer"
-            message:DEBUG?launchingBundleID:nil
+            message:DEBUG?launchingBundleID:displayName
             delegate:self
             cancelButtonTitle:@"Cancel"
             otherButtonTitles:@"Clear Badges", @"Launch app", @"Both", nil];
