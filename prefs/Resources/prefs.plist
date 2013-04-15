@@ -98,7 +98,7 @@
 			<key>label</key>
 			<string>Developer</string>
 			<key>get</key>
-			<string>developers:</string>
+			<string>developer:</string>
 		</dict>
 		<dict>
 			<key>get</key>
