@@ -1,6 +1,6 @@
 BadgeClearer
 ============
-*by Ge0rges & Nexuist*<br>
+*by GN-OS*<br>
 *© 2013*
 
 About
