@@ -26,7 +26,7 @@
     
 - (NSString *) version: (PSSpecifier *) specifier {//PSSpecifier for the version PSTitleValueCell
 	
-    return @"3.0-2";
+    return @"3.1-7";
 }
 - (NSString *) developer: (PSSpecifier *) specifier {//PSSpecifier for the developer PSTitleValueCell
     
