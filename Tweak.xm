@@ -22,16 +22,16 @@ static BOOL justLaunch = NO;
         %orig;
         return;
     }
+    
+    
     NSDictionary *prefs=[[NSDictionary alloc] initWithContentsOfFile:prefs.plist]; //checks if the enable/disable switch in rpefs is enable ord disabled
 if (![[prefs objectForKey:@"enabled"] boolValue] || allowLaunch){
 	%orig;
 } else if([[prefs objectForKey:@"enabled"] boolValue]) {
-	UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:@"Clear the badges or just launch the App?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear Badges", @"Launch the App", nil];
-	[launchView show];
-	[launchView release];
-}
-[prefs release];
 
+
+    
+    
     NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
     NSString *launchingBundleID = [self applicationBundleID];
 	NSString *displayName = [self displayName];
@@ -52,6 +52,8 @@ if (![[prefs objectForKey:@"enabled"] boolValue] || allowLaunch){
     }
     [prefs release];
 }
+
+
 
 %new(v@:@@) - (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)button {
     switch (button) {
