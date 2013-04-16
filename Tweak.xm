@@ -29,6 +29,7 @@ static BOOL justLaunch = NO;
 		justLaunch = YES;
 	}
 
+	NSString *launchingBundleID = [self applicationBundleID];
 	//if the list is valid and it contains the bundle ID for the launching app, it means that the application is present
 	// in blacklist; therefore it should do the original implementation.
 	if ([prefs objectForKey:launchingBundleID]) {
@@ -48,7 +49,6 @@ static BOOL justLaunch = NO;
 	}
 	else {
 		//main working of tweak
-		NSString *launchingBundleID = [self applicationBundleID];
 		NSString *displayName = [self displayName];
 
 		// Show the alert view   
