@@ -64,7 +64,7 @@
 		</dict>
 		<dict>
 			<key>footerText</key>
-			<string>You may find my Repo, twiter, donation and projects information on the website</string>
+			<string>You may find my twiter, donation and projects information on the website</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>

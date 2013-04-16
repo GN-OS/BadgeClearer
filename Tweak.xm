@@ -73,7 +73,7 @@ static BOOL justLaunch = NO;
 		justLaunch = YES;	
 		[self launch];
 		break;
-	case 1: // "Clear badge count" pressed
+	case 1: // "Clear Badges" pressed
 		// Clear badge count
 		[self setBadge:nil];
 		break;
