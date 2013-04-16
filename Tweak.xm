@@ -18,18 +18,18 @@ static BOOL justLaunch = NO;
 	//justLaunch will be YES when selecting either option 2 or 3 in the UIAlertView that shows up
 	//![self badgeValue] will be true only when it is 0
     if (justLaunch || ![self badgeValue]) {
-		justLaunch = NO; //reset for next launch
-        %orig;
-        return;
+	justLaunch = NO; //reset for next launch
+    	%orig;
+    	return;
     }
     
     
     NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
     NSString *launchingBundleID = [self applicationBundleID];
-	NSString *displayName = [self displayName];
+    NSString *displayName = [self displayName];
 
-	//if the list is valid and it contains the bundle ID for the launching app, it means that the application is present
-	// in blacklist; therefore it should do the original implementation.
+    //if the list is valid and it contains the bundle ID for the launching app, it means that the application is present
+    // in blacklist; therefore it should do the original implementation.
     if (prefs && [prefs objectForKey:launchingBundleID]) {
         %orig;
     } else {
