@@ -18,3 +18,8 @@ DerivedData
 .idea/
 prefs/theos
 theos
+obj
+_
+.theos
+debs
+*.deb
