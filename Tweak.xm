@@ -24,14 +24,6 @@ static BOOL justLaunch = NO;
     }
     
     
-    NSDictionary *prefs=[[NSDictionary alloc] initWithContentsOfFile:prefs.plist]; //checks if the enable/disable switch in rpefs is enable ord disabled
-if (![[prefs objectForKey:@"enabled"] boolValue] || allowLaunch){
-	%orig;
-} else if([[prefs objectForKey:@"enabled"] boolValue]) {
-
-
-    
-    
     NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
     NSString *launchingBundleID = [self applicationBundleID];
 	NSString *displayName = [self displayName];
