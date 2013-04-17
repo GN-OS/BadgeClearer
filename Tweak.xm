@@ -1,6 +1,6 @@
 //Hello World! (keeping traditions alive)
 #define BLACKLIST @"/var/mobile/Library/Preferences/BadgeClearer_blacklist.plist"
-#define DEBUG 1
+#define DEBUG 0
 
 @interface SBApplication 
 - (void)launch;
