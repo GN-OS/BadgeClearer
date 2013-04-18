@@ -1,4 +1,13 @@
-#import "Preferences.h"
+@class PSSpecifier;
+
+@interface PSListController {
+	NSArray *_specifiers;
+}
+@property(retain) NSArray *specifiers;
+
+- (NSArray *)loadSpecifiersFromPlistName:(NSString *)plistName target:(id)target;
+
+@end
 
 @interface prefsListController: PSListController {
 }
