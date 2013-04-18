@@ -8,9 +8,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Welcome! 😄</string>
+			<string>Hey there! 😄</string>
 			<key>footerText</key>
-			<string>This allows you to enable or disable the tweak.</string>
+			<string>Allows you to enable or disable the tweak.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -22,27 +22,11 @@
 			<key>key</key>
 			<string>enabled</string>
 			<key>label</key>
-			<string>Enable / Disable</string>
-		</dict>
-		<dict>
-			<key>label</key>
-			<string>To reset all badges:</string>
-			<key>footerText</key>
-			<string>If you want to reset all the badges just press the button and it will issue the command.</string>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>Reset Badges</string>
-			<key>action</key>
-			<string>resetbadges</string>
+			<string>Enabled</string>
 		</dict>
 		<dict>
 			<key>footerText</key>
-			<string>You may choose to Black list some apps.</string>
+			<string>Allows you to enable or disable the tweak for certain Apps of your choice.</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
@@ -63,20 +47,6 @@
 			<false/>
 			<key>ALSettingsPath</key>
 			<string>/var/mobile/Library/Preferences/BadgeClearer_blacklist.plist</string>
-		</dict>
-		<dict>
-			<key>footerText</key>
-			<string>You may find my twiter, donation and projects information on the website</string>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>action</key>
-			<string>Gdevwebsite</string>
-			<key>label</key>
-			<string>Ge0rges&apos;s website</string>
 		</dict>
 		<dict>
 			<key>label</key>
@@ -101,14 +71,6 @@
 			<string>Developer</string>
 			<key>get</key>
 			<string>developer:</string>
-		</dict>
-		<dict>
-			<key>get</key>
-			<string>hostedby:</string>
-			<key>label</key>
-			<string>Hosted by</string>
-			<key>cell</key>
-			<string>PSTitleValueCell</string>
 		</dict>
 	</array>
 	<key>title</key>
