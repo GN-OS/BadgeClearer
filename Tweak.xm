@@ -1,6 +1,5 @@
 //Hello World! (keeping traditions alive)
-#define BLACKLIST @"/var/mobile/Library/Preferences/BadgeClearer_blacklist.plist"
-#define DEBUG 0
+#define BLACKLIST @"/var/mobile/Library/Preferences/com.gnos.BadgeClearer.blacklist.plist"
 
 @interface SBApplication 
 - (void)launch;
@@ -15,16 +14,18 @@ static BOOL justLaunch = NO;
 %hook SBApplicationIcon
 
 - (void)launch {
+	BOOL debug;
 	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
 	//Is BLACKLIST an invalid plist?
 	if (!prefs) {
 		// then launch normally
-		justLaunch = YES;
+		[[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], nil] forKeys:[NSArray arrayWithObjects:@"enabled", "debug", nil]] writeToFile:BLACKLIST atomically:YES];
+	prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist again
 	}
 
-	NSNumber *obj = (NSNumber *)[prefs objectForKey:@"disabled"];
-	// does prefs contain a @"disabled" key? or is it true?
-	if (!obj || [obj boolValue]) {
+	NSNumber *obj = (NSNumber *)[prefs objectForKey:@"enabled"];
+	// does prefs contain a @"enabled" key? or is it true?
+	if (!obj || ![obj boolValue]) {
 		// then launch normally
 		justLaunch = YES;
 	}
@@ -51,8 +52,11 @@ static BOOL justLaunch = NO;
 		//main working of tweak
 		NSString *displayName = [self displayName];
 
-		// Show the alert view   
-		UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:(DEBUG?launchingBundleID:displayName) //ternary operator, switches between the string SpringBoard shows and the internal name for the app
+		if (obj = (NSNumber *)[prefs objectForKey:@"debug"]) {
+			debug = [obj boolValue];
+		}
+		// Show the alert view	 
+		UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:(debug?launchingBundleID:displayName) //ternary operator, switches between the string SpringBoard shows and the internal name for the app
 			message:nil
 			delegate:self
 			cancelButtonTitle:@"Cancel"
