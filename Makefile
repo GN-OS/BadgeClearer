@@ -4,9 +4,7 @@ TWEAK_NAME = BadgeClearer
 BadgeClearer_FRAMEWORKS = UIKit
 BadgeClearer_FILES = Tweak.xm
 
-SUBPROJECTS += prefs
-
-TARGET_IPHONEOS_DEPLOYMENT_VERSION = 4.0
+SUBPROJECTS += BCPreferences
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 include $(THEOS_MAKE_PATH)/aggregate.mk
