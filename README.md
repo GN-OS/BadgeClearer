@@ -4,7 +4,7 @@ BadgeClearer
 
 About
 =====
-BadgeClearer is a MobileSubstrate extension for iOS 5+ which allows you to clear badges when you open an application.
+BadgeClearer is a MobileSubstrate extension for iOS 4+ which allows you to clear badges when you open an application.
 It has extensive configuration options in Settings.
 
 Contribution
