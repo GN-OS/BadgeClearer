@@ -52,12 +52,8 @@ static BOOL justLaunch = NO;
 		//main working of tweak
 		NSString *displayName = [self displayName];
 
-<<<<<<< HEAD
 		obj = (NSNumber *)[prefs objectForKey:@"debug"];
 		if (obj) {
-=======
-		if ((obj = (NSNumber *)[prefs objectForKey:@"debug"])) {
->>>>>>> Fixed a small compiling issue
 			debug = [obj boolValue];
 		}
 		// Show the alert view	 
