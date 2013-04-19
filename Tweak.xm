@@ -19,7 +19,7 @@ static BOOL justLaunch = NO;
 	//Is BLACKLIST an invalid plist?
 	if (!prefs) {
 		// then launch normally
-		[[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], nil] forKeys:[NSArray arrayWithObjects:@"enabled", "debug", nil]] writeToFile:BLACKLIST atomically:YES];
+		[[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], nil] forKeys:[NSArray arrayWithObjects:@"enabled", @"debug", nil]] writeToFile:BLACKLIST atomically:YES];
 	prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist again
 	}
 
