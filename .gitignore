@@ -22,4 +22,5 @@ obj
 RELEASES
 debs
 *.deb
+.theos
 _
