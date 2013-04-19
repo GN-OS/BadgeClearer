@@ -14,7 +14,7 @@ static BOOL justLaunch = NO;
 %hook SBApplicationIcon
 
 - (void)launch {
-	BOOL debug;
+	BOOL debug = NO;
 	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
 	//Is BLACKLIST an invalid plist?
 	if (!prefs) {
