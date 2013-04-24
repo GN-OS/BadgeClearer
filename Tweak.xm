@@ -20,7 +20,7 @@ static BOOL justLaunch = NO;
 	if (!prefs) {
 		// then launch normally
 		[[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], nil] forKeys:[NSArray arrayWithObjects:@"enabled", "debug", nil]] writeToFile:BLACKLIST atomically:YES];
-	prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist again
+		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist again
 	}
 
 	NSNumber *obj = (NSNumber *)[prefs objectForKey:@"enabled"];
@@ -31,9 +31,16 @@ static BOOL justLaunch = NO;
 	}
 
 	NSString *launchingBundleID = [self applicationBundleID];
+
+	obj = (NSNumber *)[prefs objectForKey:launchingBundleID];
 	//if the list is valid and it contains the bundle ID for the launching app, it means that the application is present
 	// in blacklist; therefore it should do the original implementation.
-	if ([prefs objectForKey:launchingBundleID]) {
+	if (!obj || ![obj boolValue]) {
+		// then launch normally
+		justLaunch = YES;
+	}
+
+	if (![self badgeValue]) {
 		// then launch normally
 		justLaunch = YES;
 	}
@@ -43,7 +50,7 @@ static BOOL justLaunch = NO;
 	// -the app is in the blacklist
 	// -the user selects either option 2 or 3 in the UIAlertView that shows up
 	// ![self badgeValue] will be true only when it is 0
-	if (justLaunch || ![self badgeValue]) {
+	if (justLaunch) {
 		//reset for next launch
 		justLaunch = NO;
 		%orig;
