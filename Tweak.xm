@@ -59,9 +59,9 @@ static BOOL justLaunch = NO;
 		//main working of tweak
 		NSString *displayName = [self displayName];
 
-		if (obj = (NSNumber *)[prefs objectForKey:@"debug"]) {
-			debug = [obj boolValue];
-		}
+		obj = (NSNumber *)[prefs objectForKey:@"debug"];
+		debug = (obj)? [obj boolValue]:NO;
+
 		// Show the alert view	 
 		UIAlertView *launchView = [[UIAlertView alloc] initWithTitle:(debug?launchingBundleID:displayName) //ternary operator, switches between the string SpringBoard shows and the internal name for the app
 			message:nil
