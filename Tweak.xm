@@ -33,9 +33,9 @@ static BOOL justLaunch = NO;
 	NSString *launchingBundleID = [self applicationBundleID];
 
 	obj = (NSNumber *)[prefs objectForKey:launchingBundleID];
-	//if the list is valid and it contains the bundle ID for the launching app, it means that the application is present
-	// in blacklist; therefore it should do the original implementation.
-	if (!obj || ![obj boolValue]) {
+	// if the list is valid or it contains the bundle ID for the launching app and its key is true,
+	// it means that the application is present in blacklist; then do the original implementation.
+	if (obj && [obj boolValue]) {
 		// then launch normally
 		justLaunch = YES;
 	}
