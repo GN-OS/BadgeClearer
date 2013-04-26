@@ -1,5 +1,6 @@
 #Theos
 .theos/packages
+.DS_Store
 _
 obj
 BCPreferences/obj
