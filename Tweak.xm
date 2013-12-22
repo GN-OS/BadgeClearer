@@ -3,7 +3,7 @@
 
 @interface SBApplication 
 - (void)launch;
-- (int)badgeValue;
+- (int)intBadgeValue;
 - (void)setBadge:(id)badge;
 - (id)applicationBundleID;
 - (id)displayName;
@@ -40,7 +40,7 @@ static BOOL justLaunch = NO;
 		justLaunch = YES;
 	}
 
-	if (![self badgeValue]) {
+	if (![self intBadgeValue]) {
 		// then launch normally
 		justLaunch = YES;
 	}
@@ -49,7 +49,7 @@ static BOOL justLaunch = NO;
 	// -the tweak is disabled
 	// -the app is in the blacklist
 	// -the user selects either option 2 or 3 in the UIAlertView that shows up
-	// ![self badgeValue] will be true only when it is 0
+	// ![self intBadgeValue] will be true only when it is 0
 	if (justLaunch) {
 		//reset for next launch
 		justLaunch = NO;
