@@ -13,6 +13,17 @@ static BOOL justLaunch = NO;
 
 %hook SBApplicationIcon
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+        if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        dataSource = [[ALApplicationTableDataSource alloc] init];
+        NSString *sectionDescriptorsPath = [[NSBundle mainBundle] pathForResource:@"com.gnos.BadgeClearer.settings" ofType:@"plist"];
+                dataSource.sectionDescriptors = [NSArray arrayWithContentsOfFile:sectionDescriptorsPath];
+        }
+        return self;
+}
+
+
 -(void)launch {
 	BOOL debug;
 	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
