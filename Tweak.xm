@@ -3,7 +3,7 @@
 
 @interface SBApplication 
 - (void)launch;
-- (int)intBadgeValue;
+- (int)badgeValue;
 - (void)setBadge:(id)badge;
 - (id)applicationBundleID;
 - (id)displayName;
@@ -12,17 +12,6 @@
 static BOOL justLaunch = NO;
 
 %hook SBApplicationIcon
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-        if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        dataSource = [[ALApplicationTableDataSource alloc] init];
-        NSString *sectionDescriptorsPath = [[NSBundle mainBundle] pathForResource:@"com.gnos.BadgeClearer.settings" ofType:@"plist"];
-                dataSource.sectionDescriptors = [NSArray arrayWithContentsOfFile:sectionDescriptorsPath];
-        }
-        return self;
-}
-
 
 -(void)launch {
 	BOOL debug;
@@ -51,7 +40,7 @@ static BOOL justLaunch = NO;
 		justLaunch = YES;
 	}
 
-	if (![self intBadgeValue]) {
+	if (![self badgeValue]) {
 		// then launch normally
 		justLaunch = YES;
 	}
@@ -60,7 +49,7 @@ static BOOL justLaunch = NO;
 	// -the tweak is disabled
 	// -the app is in the blacklist
 	// -the user selects either option 2 or 3 in the UIAlertView that shows up
-	// ![self intBadgeValue] will be true only when it is 0
+	// ![self badgeValue] will be true only when it is 0
 	if (justLaunch) {
 		//reset for next launch
 		justLaunch = NO;
