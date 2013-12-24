@@ -18,44 +18,48 @@ static BOOL justLaunch = NO;
 
 -(void)launch {
 	BOOL debug;
-	NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
-	//Is BLACKLIST not existent?
-	if (prefs == nil) { // create new plist
-		[[NSDictionary dictionaryWithObjects:
-			[NSArray arrayWithObjects:
-				[NSNumber numberWithBool:YES],
-				[NSNumber numberWithBool:NO],
-			nil]
-		forKeys:
-			[NSArray arrayWithObjects:
-				@"enabled",
-				@"debug",
-			nil]
-		] writeToFile:BLACKLIST atomically:YES];
-		// Load the plist again
-		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
-	}
+	NSDictionary *prefs = nil;
 
-	NSNumber *obj = (NSNumber *)[prefs objectForKey:@"enabled"];
-	// does prefs contain a @"enabled" key? or is it true?
-	if (obj == nil || [obj boolValue] == NO) {
-		// then launch normally
-		justLaunch = YES;
-	}
+	if (justLaunch == NO) {
+		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
+		//Is BLACKLIST not existent?
+		if (prefs == nil) { // create new plist
+			[[NSDictionary dictionaryWithObjects:
+				[NSArray arrayWithObjects:
+					[NSNumber numberWithBool:YES],
+					[NSNumber numberWithBool:NO],
+				nil]
+			forKeys:
+				[NSArray arrayWithObjects:
+					@"enabled",
+					@"debug",
+				nil]
+			] writeToFile:BLACKLIST atomically:YES];
+			// Load the plist again
+			prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
+		}
 
-	NSString *launchingBundleID = [self applicationBundleID];
+		NSNumber *obj = (NSNumber *)[prefs objectForKey:@"enabled"];
+		// does prefs contain a @"enabled" key? or is it true?
+		if (obj == nil || [obj boolValue] == NO) {
+			// then launch normally
+			justLaunch = YES;
+		}
 
-	obj = (NSNumber *)[prefs objectForKey:launchingBundleID];
-	// if the list is valid or it contains the bundle ID for the launching app and its key is true,
-	// it means that the application is present in blacklist; then do the original implementation.
-	if (obj != nil && [obj boolValue] == YES) {
-		// then launch normally
-		justLaunch = YES;
-	}
+		NSString *launchingBundleID = [self applicationBundleID];
 
-	if ([self badgeValue] == 0) {
-		// then launch normally
-		justLaunch = YES;
+		obj = (NSNumber *)[prefs objectForKey:launchingBundleID];
+		// if the list is valid or it contains the bundle ID for the launching app and its key is true,
+		// it means that the application is present in blacklist; then do the original implementation.
+		if (obj != nil && [obj boolValue] == YES) {
+			// then launch normally
+			justLaunch = YES;
+		}
+
+		if ([self badgeValue] == 0) {
+			// then launch normally
+			justLaunch = YES;
+		}
 	}
 
 	// justLaunch will be YES when:
@@ -67,8 +71,7 @@ static BOOL justLaunch = NO;
 		//reset for next launch
 		justLaunch = NO;
 		%orig;
-	}
-	else {
+	} else {
 		//main working of tweak
 		NSString *displayName = [self displayName];
 

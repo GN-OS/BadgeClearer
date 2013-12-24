@@ -1,7 +1,6 @@
-include theos/makefiles/common.mk
+include ./theos/makefiles/common.mk
 
 TWEAK_NAME = BadgeClearer
-BadgeClearer_FRAMEWORKS = UIKit
 BadgeClearer_FILES = Tweak.xm
 
 SUBPROJECTS += BCPreferences
