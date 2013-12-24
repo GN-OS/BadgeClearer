@@ -3,13 +3,13 @@
 
 @interface SBApplication
 - (void)launch;
-- (int)badgeValue;
-- (void)setBadge:(id)badge;
 - (id)applicationBundleID;
 - (id)displayName;
 @end
 
-@interface UIAlertView
+@interface SBIcon
+- (int)badgeValue;
+- (void)setBadge:(id)badge;
 @end
 
 static BOOL justLaunch = NO;
