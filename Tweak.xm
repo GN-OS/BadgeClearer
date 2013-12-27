@@ -9,6 +9,9 @@
 - (id)displayName;
 @end
 
+@interface UIAlertView
+@end
+
 static BOOL justLaunch = NO;
 
 %hook SBApplicationIcon
