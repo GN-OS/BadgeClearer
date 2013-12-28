@@ -1,15 +1,12 @@
 //Hello World! (keeping traditions alive)
 #define BLACKLIST @"/var/mobile/Library/Preferences/com.gnos.BadgeClearer.blacklist.plist"
 
-@interface SBApplication
+@interface SBApplicationIcon
 - (void)launch;
 - (int)badgeValue;
 - (void)setBadge:(id)badge;
 - (id)applicationBundleID;
 - (id)displayName;
-@end
-
-@interface UIAlertView
 @end
 
 static BOOL justLaunch = NO;
@@ -19,12 +16,15 @@ static BOOL justLaunch = NO;
 -(void)launch {
 	BOOL debug;
 	NSDictionary *prefs = nil;
+	NSNumber *num;
+	NSString *displayName = [self displayName];
+	NSString *launchingBundleID = [self applicationBundleID];
 
 	if (justLaunch == NO) {
 		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
 		//Is BLACKLIST not existent?
 		if (prefs == nil) { // create new plist
-			[[NSDictionary dictionaryWithObjects:
+			NSDictionary *d = [[NSDictionary alloc] initWithObjects:
 				[NSArray arrayWithObjects:
 					[NSNumber numberWithBool:YES],
 					[NSNumber numberWithBool:NO],
@@ -34,24 +34,24 @@ static BOOL justLaunch = NO;
 					@"enabled",
 					@"debug",
 				nil]
-			] writeToFile:BLACKLIST atomically:YES];
+			];
+			[d writeToFile:BLACKLIST atomically:YES];
+			[d release];
 			// Load the plist again
 			prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
 		}
 
-		NSNumber *obj = (NSNumber *)[prefs objectForKey:@"enabled"];
+		num = (NSNumber *)[prefs objectForKey:@"enabled"];
 		// does prefs contain a @"enabled" key? or is it true?
-		if (obj == nil || [obj boolValue] == NO) {
+		if (num == nil || [num boolValue] == NO) {
 			// then launch normally
 			justLaunch = YES;
 		}
 
-		NSString *launchingBundleID = [self applicationBundleID];
-
-		obj = (NSNumber *)[prefs objectForKey:launchingBundleID];
+		num = (NSNumber *)[prefs objectForKey:launchingBundleID];
 		// if the list is valid or it contains the bundle ID for the launching app and its key is true,
 		// it means that the application is present in blacklist; then do the original implementation.
-		if (obj != nil && [obj boolValue] == YES) {
+		if (num != nil && [num boolValue] == YES) {
 			// then launch normally
 			justLaunch = YES;
 		}
@@ -60,6 +60,12 @@ static BOOL justLaunch = NO;
 			// then launch normally
 			justLaunch = YES;
 		}
+
+		//debug key
+		num = (NSNumber *)[prefs objectForKey:@"debug"];
+		debug = (num != nil)? [num boolValue]:NO;
+
+		[prefs release];
 	}
 
 	// justLaunch will be YES when:
@@ -72,12 +78,6 @@ static BOOL justLaunch = NO;
 		justLaunch = NO;
 		%orig;
 	} else {
-		//main working of tweak
-		NSString *displayName = [self displayName];
-
-		obj = (NSNumber *)[prefs objectForKey:@"debug"];
-		debug = (obj != nil)? [obj boolValue]:NO;
-
 		// Show the alert view
 		id avClass = %c(UIAlertView);
 		id launchView = [[avClass alloc] initWithTitle:
@@ -90,7 +90,6 @@ static BOOL justLaunch = NO;
 		[launchView show];
 		[launchView release];
 	}
-	[prefs release];
 }
 
 %new
