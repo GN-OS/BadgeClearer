@@ -4,6 +4,6 @@ Depends: mobilesubstrate, preferenceloader, applist(>=1.5.1), firmware(>=5.0)
 Version: 3.2
 Architecture: iphoneos-arm
 Description: Remove your badges as fast as they came!
-Maintainer: Ge0rges <giokanaan@gmail.com>
+Maintainer: Uroboro <uroboro.845@gmail.com>
 Author: GN-OS
 Section: Tweaks
