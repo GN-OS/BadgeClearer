@@ -1,4 +1,4 @@
-#ARCHS = armv7 arm64
+export ARCHS = armv7 arm64
 export THEOS_BUILD_DIR = packages
 
 include ./theos/makefiles/common.mk
