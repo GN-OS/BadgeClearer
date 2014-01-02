@@ -36,16 +36,16 @@
 			<string>Blacklist</string>
 		</dict>
 		<dict>
-			<key>bundle</key>
-			<string>AppList</string>
 			<key>ALAllowsSelection</key>
 			<string>1</string>
+			<key>ALSectionDescriptorSuppressHiddenAppsKey</key>
+			<true/>
 			<key>ALSettingsPath</key>
 			<string>/var/mobile/Library/Preferences/com.gnos.BadgeClearer.blacklist.plist</string>
 			<key>ALSingleEnabledMode</key>
 			<false/>
-			<key>ALSectionDescriptorSuppressHiddenAppsKey</key>
-			<true/>
+			<key>bundle</key>
+			<string>AppList</string>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>isController</key>
