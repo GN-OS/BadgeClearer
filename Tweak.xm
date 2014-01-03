@@ -81,7 +81,7 @@ static BOOL justLaunch = NO;
 		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
 	}
 
-	BOOL *value =  [[prefs objectForKey:key] boolValue];
+	BOOL value =  [[prefs objectForKey:key] boolValue];
 	[prefs release];
 
 	return value;
