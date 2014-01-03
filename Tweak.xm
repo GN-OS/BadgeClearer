@@ -81,15 +81,10 @@ static BOOL justLaunch = NO;
 		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
 	}
 
-	BOOL r = NO;
-	NSNumber *num = (NSNumber *)[prefs objectForKey:key];
-	if (num != nil) {
-		r = [num boolValue];
-	}
-
+	BOOL *value =  [[prefs objectForKey:key] boolValue];
 	[prefs release];
 
-	return r;
+	return value;
 }
 
 - (BOOL)applicationWithIdentifier:(NSString *)applicationBundleID andBadgeValueShouldLaunch:(int)badgeValue {
