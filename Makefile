@@ -1,5 +1,7 @@
-export ARCHS = armv7 arm64
-export THEOS_BUILD_DIR = packages
+Link_Theos := $(shell if [[ ! -h theos ]]; then ln -s $(THEOS); fi)
+
+TARGET = iphone:clang:6.1
+#ARCHS = armv7 arm64
 
 include ./theos/makefiles/common.mk
 

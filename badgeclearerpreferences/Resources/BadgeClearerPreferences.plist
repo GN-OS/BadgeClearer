@@ -10,11 +10,13 @@
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
-			<string>com.gnos.BadgeClearer.blacklist</string>
+			<string>com.gnos.BadgeClearer</string>
 			<key>key</key>
 			<string>enabled</string>
 			<key>label</key>
 			<string>Enabled</string>
+			<key>PostNotification</key>
+			<string>com.gnos.BadgeClearer.preferences.changed</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -25,12 +27,14 @@
 		<dict>
 			<key>ALAllowsSelection</key>
 			<string>1</string>
-			<key>ALSettingsKeyPrefix</key>
-			<string></string>
+			<key>ALChangeNotification</key>
+			<string>com.gnos.BadgeClearer.preferences.changed</string>
 			<key>ALSectionDescriptorSuppressHiddenAppsKey</key>
 			<true/>
+			<key>ALSettingsKeyPrefix</key>
+			<string></string>
 			<key>ALSettingsPath</key>
-			<string>/var/mobile/Library/Preferences/com.gnos.BadgeClearer.blacklist.plist</string>
+			<string>/var/mobile/Library/Preferences/com.gnos.BadgeClearer.plist</string>
 			<key>ALSingleEnabledMode</key>
 			<false/>
 			<key>bundle</key>
@@ -48,7 +52,7 @@
 			<key>label</key>
 			<string>Donation / Contact us</string>
 			<key>footerText</key>
-			<string>Developed by GN-OS © 2013</string>
+			<string>Developed by GN-OS © 2013-2014</string>
 		</dict>
 		<dict>
 			<key>cell</key>

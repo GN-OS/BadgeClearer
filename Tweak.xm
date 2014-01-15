@@ -1,4 +1,9 @@
+//old preferences file
 #define BLACKLIST @"/var/mobile/Library/Preferences/com.gnos.BadgeClearer.blacklist.plist"
+//new preferences file
+#define PREFERENCESFILE @"/var/mobile/Library/Preferences/com.gnos.BadgeClearer.plist"
+
+#define GNPreferencesChangedNotification "com.gnos.BadgeClearer.preferences.changed"
 
 // iOS 7 stuff
 typedef enum {
@@ -12,50 +17,48 @@ typedef enum {
 - (void)setBadge:(id)badge;
 - (NSString *)applicationBundleID;
 - (NSString *)displayName;
-- (void)launch; // <=iOS6
-- (void)launchFromLocation:(SBIconLocation)location; // >=iOS7
+- (void)launch; // <=iOS 6
+- (void)launchFromLocation:(SBIconLocation)location; // >=iOS 7
 @end
-
-static BOOL justLaunch = NO;
-
 
 @interface GNSomeUIAlertViewDelegateClass : NSObject <UIAlertViewDelegate> {
 }
-@property (nonatomic, assign) SBApplicationIcon *appIcon;
-@property (nonatomic, assign) SBIconLocation appLocation;
 
-+ (id)sharedInstance;
-
-- (void)createDefaultPreferences;
-- (BOOL)keyIsEnabled:(NSString *)key;
-- (BOOL)applicationWithIdentifier:(NSString *)applicationBundleID andBadgeValueShouldLaunch:(int)badgeValue;
-
-- (void)showAlert;
-
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-
-//- (void)alertViewCancel:(UIAlertView *)alertView; // never called
-
-//- (void)willPresentAlertView:(UIAlertView *)alertView;  // before animation and showing view
-//- (void)didPresentAlertView:(UIAlertView *)alertView;  // after animation
-
-//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex; // before animation and hiding view
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;  // after animation
 @end
 
-@implementation GNSomeUIAlertViewDelegateClass
+static GNSomeUIAlertViewDelegateClass *_si;
+static BOOL _justLaunch = NO;
+static NSDictionary *_prefs = nil;
+static SBApplicationIcon *_appIcon = nil;
+static SBIconLocation _appLocation = SBIconLocationHomeScreen;
 
-@synthesize appIcon, appLocation;
+/*
+void GN_createDefaultPreferences(void);
+void GN_updatePreferencesFile(void);
+void GN_reloadPreferences(void);
+BOOL GN_keyIsEnabled(NSString *key);
+BOOL GN_applicationIconWithLocationShouldLaunch(SBApplicationIcon *icon, SBIconLocation location);
+void GN_showAlert(void);
+*/
 
-+ (id)sharedInstance {
-	static id si = nil;
-	if (si == nil) {
-		si = [[GNSomeUIAlertViewDelegateClass alloc] init];
+
+
+//lang: C
+
+static void GN_updatePreferencesFile(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if ([fm fileExistsAtPath:BLACKLIST]) {
+		NSError *error = nil;
+		if (![fm moveItemAtPath:BLACKLIST toPath:PREFERENCESFILE error:&error]) {
+			NSLog(@"Failed to move '%@' to '%@': %@", BLACKLIST, PREFERENCESFILE, [error localizedDescription]);
+		}
 	}
-	return si;
+	[pool release];
 }
 
-- (void)createDefaultPreferences {
+static void GN_createDefaultPreferences(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSDictionary *d = [[NSDictionary alloc] initWithObjects:
 		[NSArray arrayWithObjects:
 			[NSNumber numberWithBool:YES],
@@ -67,145 +70,161 @@ static BOOL justLaunch = NO;
 			@"debug",
 		nil]
 	];
-	[d writeToFile:BLACKLIST atomically:YES];
+	[d writeToFile:PREFERENCESFILE atomically:YES];
 	[d release];
+
+	[pool release];
 }
 
-- (BOOL)keyIsEnabled:(NSString *)key {
-	NSDictionary *prefs = nil;
-	prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST]; // Load the plist
-	//Is BLACKLIST not existent?
-	if (prefs == nil) { // create new plist
-		[[GNSomeUIAlertViewDelegateClass sharedInstance] createDefaultPreferences];
+static void GN_reloadPreferences(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	GN_updatePreferencesFile();
+
+	if (_prefs != nil) {
+		[_prefs release];
+	}
+	_prefs = [[NSDictionary alloc] initWithContentsOfFile:PREFERENCESFILE]; // Load the plist
+	//Is PREFERENCESFILE not existent?
+	if (_prefs == nil) { // create new plist
+		GN_createDefaultPreferences();
 		// Load the plist again
-		prefs = [[NSDictionary alloc] initWithContentsOfFile:BLACKLIST];
+		_prefs = [[NSDictionary alloc] initWithContentsOfFile:PREFERENCESFILE];
 	}
 
-	BOOL value =  [[prefs objectForKey:key] boolValue];
-	[prefs release];
-
-	return value;
+	[pool release];
 }
 
-- (BOOL)applicationWithIdentifier:(NSString *)applicationBundleID andBadgeValueShouldLaunch:(int)badgeValue {
-//	GNSomeUIAlertViewDelegateClass *si = [GNSomeUIAlertViewDelegateClass sharedInstance];
-	BOOL enabled = [self keyIsEnabled:@"enabled"];
-	BOOL appIsBlacklisted = [self keyIsEnabled:applicationBundleID];
-	return ((badgeValue != 0)? enabled : NO)? appIsBlacklisted : YES;
+static inline BOOL GN_keyIsEnabled(NSString *key) {
+	return [[_prefs objectForKey:key] boolValue];
 }
 
-- (void)showAlert {
-//	GNSomeUIAlertViewDelegateClass *si = [GNSomeUIAlertViewDelegateClass sharedInstance];
-	BOOL debug = [self keyIsEnabled:@"debug"];
-	NSString *displayName = (self.appIcon == nil)? @"" : [self.appIcon displayName];
-	NSString *applicationBundleID = (self.appIcon == nil)? @"" : [self.appIcon applicationBundleID];
+static BOOL GN_applicationIconWithLocationShouldLaunch(SBApplicationIcon *icon, SBIconLocation location) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	_appIcon = icon;
+	_appLocation = location;
+
+	NSString *applicationBundleID = (_appIcon == nil)? @"" : [_appIcon applicationBundleID];
+	int badgeValue = (_appIcon == nil)? 0 : [_appIcon badgeValue];
+
+	BOOL enabled = GN_keyIsEnabled(@"enabled");
+	BOOL appIsBlacklisted = GN_keyIsEnabled(applicationBundleID);
+	BOOL r = ((badgeValue != 0) && enabled)? appIsBlacklisted : YES;
+	_justLaunch = (_justLaunch == NO)? r : YES;
+
+	[pool release];
+	return _justLaunch;
+}
+
+static void GN_showAlert(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	BOOL debug = GN_keyIsEnabled(@"debug");
+	NSString *displayName = (_appIcon == nil)? @"" : [_appIcon displayName];
+	NSString *applicationBundleID = (_appIcon == nil)? @"" : [_appIcon applicationBundleID];
 
 	id launchView = [[%c(UIAlertView) alloc] initWithTitle:(debug? applicationBundleID : displayName)
-	//ternary operator, switches between the string SpringBoard shows and the internal name for the app
 		message:nil
-		delegate:self
+		delegate:_si
 		cancelButtonTitle:@"Cancel"
 		otherButtonTitles:@"Clear Badges", @"Launch app", @"Both", nil];
 	[launchView show];
 	[launchView release];
+
+	[pool release];
 }
 
-/*
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-}
-*/
-/*
-- (void)alertViewCancel:(UIAlertView *)alertView {
-}
-*/
 
-/*
-- (void)willPresentAlertView:(UIAlertView *)alertView {
-}
-*/
-/*
-- (void)didPresentAlertView:(UIAlertView *)alertView {
-}
-*/
 
-/*
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-}
-*/
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if (self.appIcon == nil) {
+//lang: Objective-C
+
+@implementation GNSomeUIAlertViewDelegateClass
+
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//}
+//- (void)alertViewCancel:(UIAlertView *)alertView {  // never called
+//}
+
+//- (void)willPresentAlertView:(UIAlertView *)alertView {  // before animation and showing view
+//}
+//- (void)didPresentAlertView:(UIAlertView *)alertView {  // after animation
+//}
+
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex { // before animation and hiding view
+//}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {  // after animation
+	if (_appIcon == nil) {
 		return;
 	}
 	switch (buttonIndex) {
 	case 3: // "Both" pressed
 		// Because there is no 'break;', code will continue onto case 2 and then break
-		[self.appIcon setBadge:nil];
+		[_appIcon setBadge:nil];
 	case 2: // "Launch app" pressed
 		// Launch the app, skip all the other checks
-		justLaunch = YES;
+		_justLaunch = YES;
 		if (kCFCoreFoundationVersionNumber < 847.20) {
-			[self.appIcon launch];
+			[_appIcon launch];
 		} else {
-			[self.appIcon launchFromLocation:self.appLocation];
+			[_appIcon launchFromLocation:_appLocation];
 		}
 
 		break;
 	case 1: // "Clear Badges" pressed
 		// Clear badge count
-		[self.appIcon setBadge:nil];
+		[_appIcon setBadge:nil];
 		break;
 	}
 }
+
 @end
 
+
+
+//lang: Logos
 
 %hook SBApplicationIcon
 
 - (void)launch {
-	GNSomeUIAlertViewDelegateClass *si = [GNSomeUIAlertViewDelegateClass sharedInstance];
-	[si setAppIcon:self];
-	[si setAppLocation:SBIconLocationHomeScreen];
-
-	justLaunch = (justLaunch == NO)? [si applicationWithIdentifier:[self applicationBundleID] andBadgeValueShouldLaunch:[self badgeValue]] : YES;
-
-	// justLaunch will be YES when:
-	// -the tweak is disabled
-	// -the app is in the blacklist
-	// -the user selects either option 2 or 3 in the UIAlertView that shows up
-	// ![self badgeValue] will be true only when it is 0
-	if (justLaunch == YES) {
-		//reset for next launch
-		justLaunch = NO;
-		%orig;
+	if (GN_applicationIconWithLocationShouldLaunch(self, SBIconLocationHomeScreen)) {
+		_justLaunch = NO; //reset for next launch
+		%orig();
 	} else {
-		[si showAlert];
+		GN_showAlert();
 	}
 }
 
 - (void)launchFromLocation:(SBIconLocation)location {
-	GNSomeUIAlertViewDelegateClass *si = [GNSomeUIAlertViewDelegateClass sharedInstance];
-	[si setAppIcon:self];
-	[si setAppLocation:location];
-
-	justLaunch = (justLaunch == NO)? [si applicationWithIdentifier:[self applicationBundleID] andBadgeValueShouldLaunch:[self badgeValue]] : YES;
-
-	// justLaunch will be YES when:
-	// -the tweak is disabled
-	// -the app is in the blacklist
-	// -the user selects either option 2 or 3 in the UIAlertView that shows up
-	// ![self badgeValue] will be true only when it is 0
-	if (justLaunch == YES) {
-		//reset for next launch
-		justLaunch = NO;
-		%orig;
+	if (GN_applicationIconWithLocationShouldLaunch(self, location)) {
+		_justLaunch = NO; //reset for next launch
+		%orig();
 	} else {
-		[si showAlert];
+		GN_showAlert();
 	}
 }
 
 %end
 
+
+//notification managing
+
+static void GNPreferencesChanged(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	GN_reloadPreferences();
+	[pool release];
+}
+
+static void GNPreferencesChangedCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	GNPreferencesChanged();
+}
+
 %ctor {
-	%init;
-	[GNSomeUIAlertViewDelegateClass sharedInstance];
+	%init();
+	_si = [[GNSomeUIAlertViewDelegateClass alloc] init];
+	GNPreferencesChanged();
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, GNPreferencesChangedCallback, CFSTR(GNPreferencesChangedNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+	[pool release];
 }
