@@ -206,6 +206,14 @@ static void GN_showAlert(void) {
 
 %end
 
+%hook SBNotificationCenterTouchEater
+
+-(void)touchesBegan:(id)arg1 withEvent:(id)arg2 {
+    %log(@"BCUS");
+    return %orig;
+}
+
+%end
 
 //notification managing
 

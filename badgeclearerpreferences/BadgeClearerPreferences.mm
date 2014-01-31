@@ -5,7 +5,7 @@
 	id _specifiers;
 }
 
-- (id)loadSpecifiersFromPlistName:(NSString *)name target:(id)target;
+-(id)loadSpecifiersFromPlistName:(NSString *)name target:(id)target;
 
 @end
 
@@ -13,23 +13,26 @@
 @end
 
 @implementation BadgeClearerPreferencesListController
-- (id) specifiers {
+-(id)specifiers {
 	if(_specifiers == nil) {
 		_specifiers = [[self loadSpecifiersFromPlistName:@"BadgeClearerPreferences" target:self] retain];
 	}
 	return _specifiers;
 }
 
-- (void) donation {
+-(void)donation {
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LAEUC26VGLX2N"]];
 }
 
-- (void) twitter {
+-(void)twitter {
 	if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://user?screen_name=GN_OS"]]) {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=GN_OS"]];
 	} else {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/GN_OS"]];
 	}
+}
+
+-(void)getFlipswitchToggle {
 }
 
 @end
