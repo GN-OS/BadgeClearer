@@ -1,6 +1,6 @@
 BadgeClearer
 ============
-*© GN-OS 2013*
+*© GN-OS 2013-2017*
 
 About
 =====
