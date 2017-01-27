@@ -11,7 +11,7 @@ This project could not be here without these awesome people who helped directly 
 
 And our awesome bug testers/reporters:
 <ul>
-<li>Yara Kanaan</li>
+<li>Yayoush</li>
 </ul>
 
 The following repos were great for source code browing:
