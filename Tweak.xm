@@ -17,8 +17,9 @@ typedef enum {
 - (void)setBadge:(id)badge;
 - (NSString *)applicationBundleID;
 - (NSString *)displayName;
-- (void)launch; // <=iOS 6
-- (void)launchFromLocation:(SBIconLocation)location; // >=iOS 7
+- (void)launch; // <=iOS 7
+- (void)launchFromLocation:(SBIconLocation)location; // =iOS 8
+- (void)launchFromLocation:(SBIconLocation)location context:(id)arg2; // >=iOS 9-10
 @end
 
 @interface GNSomeUIAlertViewDelegateClass : NSObject <UIAlertViewDelegate> {
@@ -140,19 +141,6 @@ static void GN_showAlert(void) {
 
 @implementation GNSomeUIAlertViewDelegateClass
 
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//}
-//- (void)alertViewCancel:(UIAlertView *)alertView {  // never called
-//}
-
-//- (void)willPresentAlertView:(UIAlertView *)alertView {  // before animation and showing view
-//}
-//- (void)didPresentAlertView:(UIAlertView *)alertView {  // after animation
-//}
-
-//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex { // before animation and hiding view
-//}
-
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {  // after animation
 	if (_appIcon == nil) {
 		return;
@@ -164,10 +152,14 @@ static void GN_showAlert(void) {
 	case 2: // "Launch app" pressed
 		// Launch the app, skip all the other checks
 		_justLaunch = YES;
-		if (kCFCoreFoundationVersionNumber < 847.20) {
+		if (kCFCoreFoundationVersionNumber < 847.20) {// iOS 7
 			[_appIcon launch];
-		} else {
+
+		} else if (kCFCoreFoundationVersionNumber < 1200){// iOS 8
 			[_appIcon launchFromLocation:_appLocation];
+
+		} else {// iOS 9-10
+			[_appIcon launchFromLocation:_appLocation context:nil];
 		}
 
 		break;
@@ -186,6 +178,7 @@ static void GN_showAlert(void) {
 
 %hook SBApplicationIcon
 
+// iOS 7
 - (void)launch {
 	if (GN_applicationIconWithLocationShouldLaunch(self, SBIconLocationHomeScreen)) {
 		_justLaunch = NO; //reset for next launch
@@ -195,7 +188,18 @@ static void GN_showAlert(void) {
 	}
 }
 
+// iOS 8
 - (void)launchFromLocation:(SBIconLocation)location {
+	if (GN_applicationIconWithLocationShouldLaunch(self, location)) {
+		_justLaunch = NO; //reset for next launch
+		%orig();
+	} else {
+		GN_showAlert();
+	}
+}
+
+// iOS 9-10
+- (void)launchFromLocation:(SBIconLocation)location context:(id)context {
 	if (GN_applicationIconWithLocationShouldLaunch(self, location)) {
 		_justLaunch = NO; //reset for next launch
 		%orig();

@@ -1,9 +1,9 @@
 Package: com.gnos.badgeclearer
 Name: BadgeClearer
 Depends: mobilesubstrate, preferenceloader, applist(>=1.5.1), firmware(>=4.0)
-Version: 4.2.0
+Version: 4.3.0
 Architecture: iphoneos-arm
 Description: Remove your badges as fast as they came!
-Maintainer: uroboro <uroboro.845@gmail.com>
+Maintainer: Ge0rges <ge0rges@ge0rges.com>
 Author: GN-OS
 Section: Tweaks
