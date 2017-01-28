@@ -4,7 +4,7 @@
 		cell = PSLinkCell;
 		detail = "BadgeClearerPreferencesListController";
 		icon = "icon.png";
-		isController = 1;
+		isController = YES;
 		label = BadgeClearer;
 	};
 }
