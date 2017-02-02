@@ -5,7 +5,6 @@
 
 #define GNPreferencesChangedNotification "com.gnos.BadgeClearer.preferences.changed"
 
-// iOS 7 stuff
 typedef enum {
 	SBIconLocationHomeScreen = 0,
 	SBIconLocationDock       = 1,
@@ -22,26 +21,16 @@ typedef enum {
 - (void)launchFromLocation:(SBIconLocation)location context:(id)arg2; // >=iOS 9-10
 @end
 
-@interface GNSomeUIAlertViewDelegateClass : NSObject <UIAlertViewDelegate> {
+@interface GNUIAlertViewDelegateClass : NSObject <UIAlertViewDelegate> {
 }
 
 @end
 
-static GNSomeUIAlertViewDelegateClass *_si;
+static GNUIAlertViewDelegateClass *_si;
 static BOOL _justLaunch = NO;
 static NSDictionary *_prefs = nil;
 static SBApplicationIcon *_appIcon = nil;
 static SBIconLocation _appLocation = SBIconLocationHomeScreen;
-
-/*
-void GN_createDefaultPreferences(void);
-void GN_updatePreferencesFile(void);
-void GN_reloadPreferences(void);
-BOOL GN_keyIsEnabled(NSString *key);
-BOOL GN_applicationIconWithLocationShouldLaunch(SBApplicationIcon *icon, SBIconLocation location);
-void GN_showAlert(void);
-*/
-
 
 
 //lang: C
@@ -139,7 +128,7 @@ static void GN_showAlert(void) {
 
 //lang: Objective-C
 
-@implementation GNSomeUIAlertViewDelegateClass
+@implementation GNUIAlertViewDelegateClass
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {  // after animation
 	if (_appIcon == nil) {
@@ -233,7 +222,7 @@ static void GNPreferencesChangedCallback(CFNotificationCenterRef center, void *o
 
 %ctor {
 	%init();
-	_si = [[GNSomeUIAlertViewDelegateClass alloc] init];
+	_si = [[GNUIAlertViewDelegateClass alloc] init];
 	GNPreferencesChanged();
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
